@@ -77,6 +77,7 @@ class ListViewTest(TestCase):
         response = self.client.get(f'/lists/{correct_list.id}/')
         self.assertEqual(response.context['list'], correct_list)
 
+
 class NewItemTest(TestCase):
 
     def test_can_save_a_POST_request_to_an_existing_list(self):
