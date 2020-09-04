@@ -4,8 +4,14 @@ from fabric.api import cd, env, local, run
 
 REPO_URL = 'https://github.com/cybersmithio/tdd-2020.git'
 
+
 def deploy():
+    print(f"Username: {env.user}")
+    print(f"Host: {env.host}")
+    env.key_filename = '../superlists-staging_key.pem'
+    print(f"Key file: {env.key_filename}")
     site_folder = f'/home/{env.user}/sites/{env.host}'
+    run('ls -l')
     run(f'mkdir -p {site_folder}')
     with cd(site_folder):
         _get_latest_source()

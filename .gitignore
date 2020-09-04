@@ -9,3 +9,4 @@ __pycache__
 static/*
 /static/
 .env
+superlists-staging_key.pem
