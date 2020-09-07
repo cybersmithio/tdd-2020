@@ -1,7 +1,5 @@
 # To-do
 * valid input so there are no blanks or duplicates
-* remove hardcoded URLs from views.py
-* remove hardcoded URLs from forms in list.html and home.html
 * Remove duplication of validation logic in views
 
 
@@ -12,3 +10,5 @@
 * Make ALLOWED_HOSTS less permissive
 * Set a unique SECRET_KEY
 * Systemd config file so the web server starts automatically on server reboot
+* remove hardcoded URLs from views.py
+* remove hardcoded URLs from forms in list.html and home.html
