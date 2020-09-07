@@ -2,6 +2,7 @@
 * valid input so there are no blanks or duplicates
 * remove hardcoded URLs from views.py
 * remove hardcoded URLs from forms in list.html and home.html
+* Remove duplication of validation logic in views
 
 
 # Done
