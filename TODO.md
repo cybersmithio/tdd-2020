@@ -1,5 +1,7 @@
 # To-do
 * valid input so there are no blanks or duplicates
+* remove hardcoded URLs from views.py
+
 
 
 # Done
