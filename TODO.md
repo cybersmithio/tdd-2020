@@ -1,6 +1,4 @@
 # To-do
-* valid input so there are no blanks or duplicates
-* Remove duplication of validation logic in views
 
 
 # Done
@@ -12,3 +10,5 @@
 * Systemd config file so the web server starts automatically on server reboot
 * remove hardcoded URLs from views.py
 * remove hardcoded URLs from forms in list.html and home.html
+* valid input so there are no blanks
+* Remove duplication of validation logic in views
