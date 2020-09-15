@@ -113,7 +113,7 @@ class ListViewTest(TestCase):
 
     def test_for_invalid_input_shows_error_on_page(self):
         response = self.post_invalid_input()
-        print("response:", response.content.decode())
+        #print("response:", response.content.decode())
         self.assertContains(response, escape(EMPTY_ITEM_ERROR))
 
     def test_display_item_form(self):
