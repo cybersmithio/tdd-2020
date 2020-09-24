@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 
 # Create your models here.
@@ -10,7 +10,7 @@ class List(models.Model):
 
 class Item(models.Model):
     text = models.TextField(default='')
-    list = models.ForeignKey(List, default=None)
+    list = models.ForeignKey(List, default=None, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ('id',)
