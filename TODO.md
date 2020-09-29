@@ -1,5 +1,8 @@
 # To-do
-
+* Send emails
+* Generating and recognising unique tokens
+* How to authenticate someone in Django
+* What steps will the user have to go through
 
 # Done
 * Get the server running on port 80 instead of 8080
