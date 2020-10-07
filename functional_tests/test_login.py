@@ -12,6 +12,7 @@ if TEST_EMAIL == "" or TEST_EMAIL is None:
     print("Set the TEST_EMAIL environment variable to the recipient!")
     exit(-1)
 
+
 class LoginTest(FunctionalTest):
     def test_can_get_email_link_to_log_in(self):
         # Edith goes to the awesome superlists site
@@ -45,8 +46,8 @@ class LoginTest(FunctionalTest):
         self.browser.get(url)
 
         # she is logged in!
-        self.wait_for(lambda: self.browser.find_element_by_link_text('Log out'))
         time.sleep(5)
+        self.wait_for(lambda: self.browser.find_element_by_link_text('Log out'))
         navbar = self.browser.find_element_by_css_selector('.navbar')
         self.assertIn(TEST_EMAIL, navbar.text)
 

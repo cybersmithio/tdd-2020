@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'accounts',
 ]
 
-AUTH_USER_MODEL = 'accounts.ListUser'
+AUTH_USER_MODEL = 'accounts.User'
 AUTHENTICATION_BACKENDS = [
     'accounts.authentication.PasswordlessAuthenticationBackend',
 ]
@@ -131,11 +131,20 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-EMAIL_HOST = os.environ.get('EMAIL_HOST')
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+
+def check_setting_not_blank(env_var):
+    if os.environ.get(env_var) == "" or os.environ.get(env_var) is None:
+        print(f"Need {env_var} variable filled")
+        exit(-1)
+    return os.environ.get(env_var)
+
+
+EMAIL_HOST = check_setting_not_blank('EMAIL_HOST')
+EMAIL_HOST_USER = check_setting_not_blank('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = check_setting_not_blank('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
 
 LOGGING = {
     'version': 1,
