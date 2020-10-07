@@ -9,7 +9,6 @@ from django.contrib import auth, messages
 # Create your views here.
 def send_login_email(request):
     email = request.POST['email']
-    #print(type(send_mail))
     token = Token.objects.create(email=email)
     url = request.build_absolute_uri(
         reverse('login') + '?token=' + str(token.uid)
@@ -26,18 +25,8 @@ def send_login_email(request):
 
 
 def login(request):
-    #Debug
-    print("Authentication token is:", request.GET.get('token'))
-    try:
-        token = Token.objects.get(uid=request.GET.get('token'))
-        print("Email associated with token is", token.email)
-    except:
-        pass
-
     user = auth.authenticate(request, uid=request.GET.get('token'))
 
-    #Debug
-    print("User logging in is:", user)
     if user:
         auth.login(request, user)
     return redirect('/')

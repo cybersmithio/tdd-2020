@@ -4,7 +4,6 @@ from accounts.models import User, Token
 class PasswordlessAuthenticationBackend(object):
 
     def authenticate(self, request, uid):
-        print("PasswordlessAuthenticationBackend trying to authenticate UID:", uid)
         try:
             token = Token.objects.get(uid=uid)
             return User.objects.get(email=token.email)
@@ -14,7 +13,6 @@ class PasswordlessAuthenticationBackend(object):
             return None
 
     def get_user(self, email):
-        print("PasswordlessAuthenticationBackend.get_user looking for email:", email)
         try:
             return User.objects.get(email=email)
         except User.DoesNotExist:
