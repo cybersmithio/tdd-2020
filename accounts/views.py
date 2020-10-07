@@ -28,10 +28,13 @@ def send_login_email(request):
 def login(request):
     #Debug
     print("Authentication token is:", request.GET.get('token'))
-    token = Token.objects.get(uid=request.GET.get('token'))
-    print("Email associated with token is", token.email)
+    try:
+        token = Token.objects.get(uid=request.GET.get('token'))
+        print("Email associated with token is", token.email)
+    except:
+        pass
 
-    user = auth.authenticate(uid=request.GET.get('token'))
+    user = auth.authenticate(request, uid=request.GET.get('token'))
 
     #Debug
     print("User logging in is:", user)

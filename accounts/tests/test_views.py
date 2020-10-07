@@ -53,6 +53,21 @@ class SendLoginEmailViewTest(TestCase):
         (subject, body, from_email, to_list), kwargs = mock_send_mail.call_args
         self.assertIn(expected_url, body)
 
+    @patch('accounts.views.send_mail')
+    def test_link_in_email_logs_in_user(self, mock_send_mail):
+        self.client.post('/accounts/send_login_email', data={
+            'email': TEST_EMAIL
+        })
+
+        token = Token.objects.first()
+        expected_url = f'http://testserver/accounts/login?token={token.uid}'
+        (subject, body, from_email, to_list), kwargs = mock_send_mail.call_args
+        self.assertIn(expected_url, body)
+
+        response = self.client.get(expected_url, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Logged in as")
+
 
 @patch('accounts.views.auth')
 class LoginViewTest(TestCase):
@@ -61,10 +76,10 @@ class LoginViewTest(TestCase):
         self.assertRedirects(response, '/')
 
     def test_calls_authenticate_with_uid_from_get_request(self, mock_auth):
-        self.client.get('/accounts/login?token=abcd123')
+        response = self.client.get('/accounts/login?token=abcd123')
         self.assertEqual(
             mock_auth.authenticate.call_args,
-            call(uid='abcd123')
+            call(response.wsgi_request, uid='abcd123')
         )
 
     def test_calls_auth_login_with_user_if_there_is_one(self, mock_auth):
