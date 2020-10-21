@@ -9,5 +9,11 @@ My project as I work through the Test-Driven Development with Python by Harry Pe
 * Python 3.6
     * Selenium 3
 
-# To set up server:
-EMAIL_HOST=smtp.gmail.com python manage.py runserver
+# To run dev server in Linux enviornment:
+set -a ; source .env ; set +a; python manage.py runserver
+
+
+# To run dev server in Windows environment:
+.env.bat
+python manage.py runserver
+
