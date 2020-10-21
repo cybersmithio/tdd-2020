@@ -10,3 +10,4 @@ static/*
 /static/
 .env
 superlists-staging_key.pem
+.env.bat

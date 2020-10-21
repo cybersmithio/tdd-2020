@@ -1,5 +1,4 @@
 # To-do
-* Clean up wait_for stuff in base.py
 
 # Done
 * Get the server running on port 80 instead of 8080
@@ -16,3 +15,4 @@
 * Generating and recognising unique tokens
 * How to authenticate someone in Django
 * What steps will the user have to go through
+* Clean up wait_for stuff in base.py
