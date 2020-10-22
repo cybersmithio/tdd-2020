@@ -12,7 +12,7 @@ class MyListsTest(FunctionalTest):
     #This current will only work with the Django test server, and will fail when tested against staging.
     def create_pre_authenticated_session(self, email):
         if self.staging_server:
-            session_key = create_session_on_server(self.staging_server, email)
+            session_key = create_session_on_server(self.staging_server_username, self.staging_server, email)
         else:
             session_key = create_pre_authenticated_session(email)
             ## to set a cookie we need to first visit the domain.
