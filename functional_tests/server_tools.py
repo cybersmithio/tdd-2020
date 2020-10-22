@@ -23,9 +23,9 @@ def _get_server_env_vars(host):
 def create_session_on_server(username, host, email):
     manage_dot_py = _get_manager_dot_py(host)
     print(f"create_session_on_server: Connecting to staging server with string {username}@{host}")
-    #with settings(host_string=f'{username}@{host}'):
     with settings(user=username, host_string=host, key_filename='superlists-staging_key.pem'):
         env_vars = _get_server_env_vars(host)
         with shell_env(**env_vars):
             session_key = run(f'{manage_dot_py} create_session {email}')
+            print("Retrieved session key is:", session_key.strip())
             return session_key.strip()
