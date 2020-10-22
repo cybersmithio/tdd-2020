@@ -17,3 +17,10 @@ set -a ; source .env ; set +a; python manage.py runserver
 .env.bat
 python manage.py runserver
 
+# To run functional tests in staging in Windows environment:
+set STAGING_SERVER=superlists-staging.cybersmith.io
+set STAGING_SERVER_USERNAME=*******
+set TEST_EMAIL=***************
+python manage.py test functional_tests
+set STAGING_SERVER=
+

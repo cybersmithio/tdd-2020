@@ -4,6 +4,11 @@ import re
 from .base import FunctionalTest
 import os
 import time
+import os
+import poplib
+import re
+import time
+
 
 TEST_EMAIL = os.environ.get('TEST_EMAIL')
 SUBJECT = "Your login link for Superlists"
@@ -14,6 +19,41 @@ if TEST_EMAIL == "" or TEST_EMAIL is None:
 
 
 class LoginTest(FunctionalTest):
+    def wait_for_email(self, test_email, subject):
+        if not self.staging_server:
+            email = mail.outbox[0]
+            self.assertIn(test_email, email.to)
+            self.assertEqual(email.subject, subject)
+            return email.body
+
+        email_id = None
+        end_time = time.time() + 300
+        try:
+            while time.time() < end_time:
+                inbox = poplib.POP3_SSL('pop.gmail.com')
+                inbox.user(test_email)
+                inbox.pass_(os.environ['TEST_EMAIL_PASSWORD'])
+                # get 10 newest messages
+                print("Getting mailbox statistics")
+                count, _ = inbox.stat()
+                print("Message count:", count)
+                for i in reversed(range(max(1, count - 10), count+1)):
+                    print('getting msg', i)
+                    _, lines, __ = inbox.retr(i)
+                    lines = [l.decode('utf8') for l in lines]
+                    print(lines)
+                    if f'Subject: {subject}' in lines:
+                        email_id = i
+                        body = '\n'.join(lines)
+                        return body
+                time.sleep(10)
+                inbox.quit()
+        finally:
+            if email_id:
+                print("Deleting email with ID:",i)
+                inbox.dele(email_id)
+            inbox.quit()
+
     def test_can_get_email_link_to_log_in(self):
         # Edith goes to the awesome superlists site
         # and notices a "Log In" section in the navbar for the first time
@@ -30,15 +70,14 @@ class LoginTest(FunctionalTest):
         ))
 
         # She checks her email and finds a message
-        email = mail.outbox[0]
-        self.assertIn(TEST_EMAIL, email.to)
-        self.assertEqual(email.subject, SUBJECT)
+        body = self.wait_for_email(TEST_EMAIL, SUBJECT)
 
         # It has a url link in it
-        self.assertIn('Use this link to log in', email.body)
-        url_search = re.search(r'http://.+/.+$', email.body)
+        print("Email body",body)
+        self.assertIn('Use this link to log in', body)
+        url_search = re.search(r'http://.+/.+$', body)
         if not url_search:
-            self.fail(f'Could not find url in email body:\n{email.body}')
+            self.fail(f'Could not find url in email body:\n{body}')
         url = url_search.group(0)
         self.assertIn(self.live_server_url, url)
 
