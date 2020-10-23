@@ -5,7 +5,7 @@ from .base import FunctionalTest, TEST_EMAIL
 from .server_tools import create_session_on_server
 from .management.commands.create_session import create_pre_authenticated_session
 User = get_user_model()
-
+import time
 
 class MyListsTest(FunctionalTest):
 
@@ -50,7 +50,7 @@ class MyListsTest(FunctionalTest):
         second_list_url = self.browser.current_url
 
         # Under "my lists", her new list appears
-        self.browser.find_element_by_link_text('Click cows').click()
+        self.browser.find_element_by_link_text("My lists").click()
         self.wait_for(lambda: self.browser.find_element_by_link_text('Click cows'))
         self.browser.find_element_by_link_text('Click cows').click()
         self.wait_for(lambda: self.assertEqual(self.browser.current_url, second_list_url))
