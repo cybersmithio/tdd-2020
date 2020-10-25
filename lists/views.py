@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from lists.forms import ExistingListItemForm, ItemForm
 from django.contrib.auth import get_user_model
 User = get_user_model()
-
+from lists.forms import ExistingListItemForm, ItemForm, NewListForm
 
 # Create your views here.
 def home_page(request):
@@ -30,9 +30,17 @@ def new_list(request):
         list_.owner = request.user
         list_.save()
         form.save(for_list=list_)
-        return redirect(list_)
+        return redirect(str(list_.get_absolute_url()))
     else:
         return render(request, 'home.html', {"form": form})
+
+
+def new_list2(request):
+    form = NewListForm(data=request.POST)
+    if form.is_valid():
+        list_ = form.save(owner=request.user)
+        return redirect(str(list_.get_absolute_url()))
+    return render(request, 'home.html', {'form': form})
 
 
 def my_lists(request, email):
